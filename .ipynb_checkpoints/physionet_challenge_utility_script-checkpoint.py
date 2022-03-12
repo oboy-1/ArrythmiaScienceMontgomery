@@ -98,7 +98,8 @@ def get_signal_lengths(path, title):
 def make_undefined_class(labels, df_unscored):
     df_labels = pd.DataFrame(labels)
     for i in range(len(df_unscored.iloc[0:,1])):
-        df_labels.replace(to_replace=str(df_unscored.iloc[i,1]), inplace=True ,value="undefined class", regex=True)
+        
+       df_labels.replace(to_replace=str(df_unscored.iloc[i,1]), inplace=True ,value="undefined class", regex=True)
 
     '''
     #equivalent classes
@@ -298,7 +299,7 @@ def residual_network_1d():
 
     gap_layer = keras.layers.GlobalAveragePooling1D()(output_block_3)
 
-    output_layer = keras.layers.Dense(27, activation='softmax')(gap_layer)
+    output_layer = keras.layers.Dense(3, activation='softmax')(gap_layer)
 
     model = keras.models.Model(inputs=input_layer, outputs=output_layer)
 
