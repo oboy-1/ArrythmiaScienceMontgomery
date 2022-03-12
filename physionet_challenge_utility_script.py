@@ -416,7 +416,7 @@ def residual_network_1d_demo(classes=27):
     inputB = keras.layers.Input(shape=(2,))
 
     # BLOCK 1
-
+    
     conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=8, padding='same')(inputA)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)

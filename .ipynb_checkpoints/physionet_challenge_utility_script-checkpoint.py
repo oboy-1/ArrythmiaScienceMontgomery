@@ -231,7 +231,7 @@ def calculating_class_weights(y_true):
     return weights
 
 
-def residual_network_1d():
+def residual_network_1d(classes=27):
     n_feature_maps = 64
     input_shape = (5000,12)
     input_layer = keras.layers.Input(input_shape)
@@ -319,7 +319,7 @@ def residual_network_1d():
 
     return model
 
-def encoder_model():
+def encoder_model(classes=27):
     input_layer = keras.layers.Input(shape=(5000, 12))
 
 
@@ -351,7 +351,7 @@ def encoder_model():
     dense_layer = tfa.layers.InstanceNormalization()(dense_layer)
     # output layer
     flatten_layer = keras.layers.Flatten()(dense_layer)
-    output_layer = keras.layers.Dense(units=27,activation='sigmoid')(flatten_layer)
+    output_layer = keras.layers.Dense(units=classes,activation='sigmoid')(flatten_layer)
 
     model = keras.models.Model(inputs=input_layer, outputs=output_layer)
 
@@ -370,7 +370,7 @@ def encoder_model():
 
     return model
 
-def FCN():
+def FCN(classes=27):
     inputlayer = keras.layers.Input(shape=(5000,12)) 
 
     conv1 = keras.layers.Conv1D(filters=128, kernel_size=8,input_shape=(5000,12), padding='same')(inputlayer)
@@ -388,7 +388,7 @@ def FCN():
     gap_layer = keras.layers.GlobalAveragePooling1D()(conv3)
 
 
-    outputlayer = keras.layers.Dense(27, activation='sigmoid')(gap_layer)
+    outputlayer = keras.layers.Dense(classes, activation='sigmoid')(gap_layer)
 
     model = keras.Model(inputs=inputlayer, outputs=outputlayer)
   
@@ -409,14 +409,14 @@ def FCN():
 
     return model
 
-def residual_network_1d_demo():
+def residual_network_1d_demo(classes=27):
     n_feature_maps = 64
     input_shape = (5000,12)
     inputA = keras.layers.Input(input_shape)
     inputB = keras.layers.Input(shape=(2,))
 
     # BLOCK 1
-
+    
     conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=8, padding='same')(inputA)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
@@ -478,7 +478,7 @@ def residual_network_1d_demo():
 
     gap_layer = keras.layers.GlobalAveragePooling1D()(output_block_3)
 
-    output_layer = keras.layers.Dense(27, activation='softmax')(gap_layer)
+    output_layer = keras.layers.Dense(classes, activation='softmax')(gap_layer)
 
     mod1 = keras.models.Model(inputs=inputA, outputs=output_layer)
     
@@ -489,7 +489,7 @@ def residual_network_1d_demo():
 
     combined = keras.layers.concatenate([mod1.output, mod2.output])
 
-    z = keras.layers.Dense(27, activation="sigmoid")(combined)
+    z = keras.layers.Dense(classes, activation="sigmoid")(combined)
 
     model = keras.models.Model(inputs=[mod1.input, mod2.input], outputs=z)
 
@@ -509,7 +509,7 @@ def residual_network_1d_demo():
 
     return model
 
-def encoder_model_demo():
+def encoder_model_demo(classes=27):
     inputA = keras.layers.Input(shape=(5000, 12))
     inputB = keras.layers.Input(shape=(2,))
     # conv block -1
@@ -551,7 +551,7 @@ def encoder_model_demo():
 
     combined = keras.layers.concatenate([mod1.output, mod2.output])
 
-    z = keras.layers.Dense(27, activation="sigmoid")(combined)
+    z = keras.layers.Dense(classes, activation="sigmoid")(combined)
 
     model = keras.models.Model(inputs=[mod1.input, mod2.input], outputs=z)
 
@@ -570,7 +570,7 @@ def encoder_model_demo():
 
     return model
 
-def FCN_demo():
+def FCN_demo(classes=27):
 
     inputA = keras.layers.Input(shape=(5000,12))
     inputB = keras.layers.Input(shape=(2,))
@@ -598,7 +598,7 @@ def FCN_demo():
     model3 = keras.Model(inputs=inputB, outputs=mod3)
 
     combined = keras.layers.concatenate([model1.output, model3.output])
-    final_layer = keras.layers.Dense(27, activation="sigmoid")(combined)
+    final_layer = keras.layers.Dense(classes, activation="sigmoid")(combined)
     model = keras.models.Model(inputs=[inputA,inputB], outputs=final_layer)
 
     model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(), metrics=[tf.keras.metrics.BinaryAccuracy(
@@ -615,7 +615,7 @@ def FCN_demo():
     )])
     return model
 
-def FCN_Encoder():
+def FCN_Encoder(classes=27):
 
     inputA = tf.keras.layers.Input(shape=(5000,12))
 
@@ -665,7 +665,7 @@ def FCN_Encoder():
     model2 = keras.Model(inputs=inputA, outputs=flatten_layer)
 
     combined = keras.layers.concatenate([model1.output, model2.output])
-    final_layer = keras.layers.Dense(27, activation="sigmoid")(combined)
+    final_layer = keras.layers.Dense(classes, activation="sigmoid")(combined)
     model = keras.models.Model(inputs=inputA, outputs=final_layer)
 
 
@@ -686,7 +686,7 @@ def FCN_Encoder():
 
     return model
 
-def FCN_Encoder_demo():
+def FCN_Encoder_demo(classes=27):
 
     inputA = keras.layers.Input(shape=(5000,12))
     inputB = keras.layers.Input(shape=(2,))
@@ -742,7 +742,7 @@ def FCN_Encoder_demo():
     model3 = keras.Model(inputs=inputB, outputs=mod3)
 
     combined = keras.layers.concatenate([model1.output, model2.output, model3.output])
-    final_layer = keras.layers.Dense(27, activation="sigmoid")(combined)
+    final_layer = keras.layers.Dense(classes=27, activation="sigmoid")(combined)
     model = keras.models.Model(inputs=[inputA,inputB], outputs=final_layer)
 
     model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(), metrics=[tf.keras.metrics.BinaryAccuracy(
