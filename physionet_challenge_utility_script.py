@@ -238,7 +238,11 @@ def residual_network_1d(classes=27):
 
     # BLOCK 1
 
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=8, padding='same')(input_layer)
+    conv_a = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=12, padding='same')(input_layer)
+    conv_a = keras.layers.BatchNormalization()(conv_a)
+    conv_a = keras.layers.Activation('relu')(conv_a)
+    
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=8, padding='same')(conv_a)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
@@ -257,8 +261,12 @@ def residual_network_1d(classes=27):
     output_block_1 = keras.layers.Activation('relu')(output_block_1)
 
     # BLOCK 2
-
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(output_block_1)
+    
+    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=12, padding='same')(output_block_1)
+    conv_a = keras.layers.BatchNormalization()(conv_a)
+    conv_a = keras.layers.Activation('relu')(conv_a)
+    
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(conv_a)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
@@ -278,7 +286,11 @@ def residual_network_1d(classes=27):
 
     # BLOCK 3
 
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(output_block_2)
+    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=12, padding='same')(output_block_2)
+    conv_a = keras.layers.BatchNormalization()(conv_a)
+    conv_a = keras.layers.Activation('relu')(conv_a)
+    
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(conv_a)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
@@ -299,11 +311,11 @@ def residual_network_1d(classes=27):
 
     gap_layer = keras.layers.GlobalAveragePooling1D()(output_block_3)
 
-    output_layer = keras.layers.Dense(3, activation='softmax')(gap_layer)
+    output_layer = keras.layers.Dense(classes, activation='softmax')(gap_layer)
 
     model = keras.models.Model(inputs=input_layer, outputs=output_layer)
 
-    model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.001), metrics=[tf.keras.metrics.BinaryAccuracy(
+    model.compile(loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(learning_rate=0.01), metrics=[tf.keras.metrics.BinaryAccuracy(
         name='accuracy', dtype=None, threshold=0.5),tf.keras.metrics.Recall(name='Recall'),tf.keras.metrics.Precision(name='Precision'), 
                     tf.keras.metrics.AUC(
         num_thresholds=200,
