@@ -262,7 +262,7 @@ def residual_network_1d(classes=27):
 
     # BLOCK 2
     
-    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=12, padding='same')(output_block_1)
+    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=6, padding='same')(output_block_1)
     conv_a = keras.layers.BatchNormalization()(conv_a)
     conv_a = keras.layers.Activation('relu')(conv_a)
     
@@ -382,7 +382,7 @@ def encoder_model(classes=27):
 
     return model
 
-def FCN(classes=27):
+def FCN(classes=27, multilabel=True):
     inputlayer = keras.layers.Input(shape=(5000,12)) 
 
     conv1 = keras.layers.Conv1D(filters=128, kernel_size=8,input_shape=(5000,12), padding='same')(inputlayer)
@@ -415,7 +415,7 @@ def FCN(classes=27):
         name="AUC",
         dtype=None,
         thresholds=None,
-        multi_label=True,
+        multi_label=multilabel,
         label_weights=None,
     )])
 
@@ -429,7 +429,7 @@ def residual_network_1d_demo(classes=27):
 
     # BLOCK 1
     
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=8, padding='same')(inputA)
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps, kernel_size=12, padding='same')(inputA)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
@@ -449,7 +449,7 @@ def residual_network_1d_demo(classes=27):
 
     # BLOCK 2
 
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(output_block_1)
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=16, padding='same')(output_block_1)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
@@ -469,7 +469,7 @@ def residual_network_1d_demo(classes=27):
 
     # BLOCK 3
 
-    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=8, padding='same')(output_block_2)
+    conv_x = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=20, padding='same')(output_block_2)
     conv_x = keras.layers.BatchNormalization()(conv_x)
     conv_x = keras.layers.Activation('relu')(conv_x)
 
