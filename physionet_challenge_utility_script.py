@@ -262,7 +262,7 @@ def residual_network_1d(classes=27):
 
     # BLOCK 2
     
-    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=6, padding='same')(output_block_1)
+    conv_a = keras.layers.Conv1D(filters=n_feature_maps * 2, kernel_size=12, padding='same')(output_block_1)
     conv_a = keras.layers.BatchNormalization()(conv_a)
     conv_a = keras.layers.Activation('relu')(conv_a)
     
@@ -939,7 +939,7 @@ def compute_modified_confusion_matrix(labels, outputs):
             if labels[i, j]:
                 for k in range(num_classes):
                     if outputs[i, k]:
-                        A[j, k] += 1.0/normalization
+                        A[j, k] += 
 
     return A
 
@@ -961,7 +961,7 @@ def iterate_threshold(y_pred, ecg_filenames, y ,val_fold ):
     
     
     
-def plot_normalized_conf_matrix(y_pred, ecg_filenames, y, val_fold, threshold, snomedclasses, snomedabbr):
+def plot_normalized_conf_matrix(y_pred, ecg_filenames, y, val_fold, threshold, snomedclasses, snomedabbr, color="Blues"):
     conf_m = compute_modified_confusion_matrix(generate_validation_data(ecg_filenames,y,val_fold)[1], (y_pred>threshold)*1)
     conf_m = np.nan_to_num(conf_m)
     #min_max_scaler = preprocessing.MinMaxScaler()
@@ -976,7 +976,7 @@ def plot_normalized_conf_matrix(y_pred, ecg_filenames, y, val_fold, threshold, s
     #df_norm_col=(df_cm-df_cm.mean())/df_cm.std()
     plt.figure(figsize = (12,10))
     sns.set(font_scale=1.4)#for label size
-    sns.heatmap(df_norm_col, cmap="rocket_r", annot=True,cbar=False, annot_kws={"size": 10},fmt=".2f")# 
+    sns.heatmap(df_norm_col, cmap=color, annot=True,cbar=False, annot_kws={"size": 10},fmt=".2f")# 
 #############################
 #Adding rule-based algorithms
 #############################
