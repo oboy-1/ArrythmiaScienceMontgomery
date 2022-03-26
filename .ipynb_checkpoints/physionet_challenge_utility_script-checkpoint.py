@@ -939,7 +939,7 @@ def compute_modified_confusion_matrix(labels, outputs):
             if labels[i, j]:
                 for k in range(num_classes):
                     if outputs[i, k]:
-                        A[j, k] += 0
+                        A[j, k] += 1.0/normalization
 
     return A
 
