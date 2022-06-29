@@ -5,6 +5,11 @@
 This project was developed as an entry into Science Montgomery CS Division. It was developed by two students at 
 Poolesville High School in the SMCS house. 
 
+## Awards
+ - 2nd Place in the Science Montgomery Computer Science Division
+ - United States Public Health Service (USPHS) Meritorious Achievement Award
+ - CIA STEM Project Honorable Mention
+
 ## **Background**
 
 Electrocardiograms (ECGs) provide non-invasive information about the electrical activity of the heart, allowing the ability to diagnose various arrhythmias.  Such diagnoses are currently manually interpreted, which is time-consuming, and requires skilled personnel.  Over the past decade, there has been a lot of research aiming to automatically detect and classify arrhythmias,<sup>[1]</sup> but had some degree of difficulty in classifying sinus rhythm (normal human heart rhythm) which produced false negatives.<sup>[2]</sup>
